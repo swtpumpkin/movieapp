@@ -14,7 +14,14 @@ class App extends Component {
   
   _renderMovies = () => {
     const movies = this.state.movies.map(movie => {
-      return <Movie title={movie.title} poster={movie.large_cover_image} key={movie.id} />
+      return (<Movie 
+        title={movie.title_english}
+        poster={movie.medium_cover_image}
+        key={movie.id}
+        genres={movie.genres}
+        synopsis={movie.synopsis}
+      />
+      )
     })
     return movies
   }
@@ -22,7 +29,7 @@ class App extends Component {
   _getMovies = async () => {
     const movies = await this._callApi()
     this.setState({
-      movies: movies
+      movies
     })
   }
 
@@ -36,11 +43,12 @@ class App extends Component {
   // 자체기능은 그냥 함수명을 사용하고 나의 기능은 언더스코어(_)를 사용하여 구분한다.
 
   render() {
+    const {movies} = this.state
     return (
-      <div className="App">
-        {this.state.movies ? this._renderMovies() : 'Loading '}
+      <div className={movies ? "App": "App--loading"}>
+        {movies ? this._renderMovies() : "Loading"}
       </div>
-    );
+    )
   }
 }
 
